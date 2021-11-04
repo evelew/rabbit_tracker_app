@@ -24,9 +24,11 @@ class Calendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      locale: 'pt_BR',
       firstDay: DateTime.utc(2021, 1, 11),
       lastDay: DateTime.utc(2030, 1, 11),
       focusedDay: DateTime.now(),
+      headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
       calendarBuilders: CalendarBuilders(
         todayBuilder: (context, date, _) {
           return CalendarDay(
