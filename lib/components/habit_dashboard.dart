@@ -29,6 +29,7 @@ class Calendar extends StatelessWidget {
       lastDay: DateTime.utc(2030, 1, 11),
       focusedDay: DateTime.now(),
       headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
+      onDaySelected: (selectedDay, focusedDay) {},
       calendarBuilders: CalendarBuilders(
         todayBuilder: (context, date, _) {
           return CalendarDay(
