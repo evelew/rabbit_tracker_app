@@ -4,6 +4,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:rabbit_tracker_app/components/habit_dashboard.dart';
 import 'package:rabbit_tracker_app/components/user_avatar.dart';
 
+import 'package:rabbit_tracker_app/config/palette.dart';
+
 void main() {
   initializeDateFormatting('pt_BR');
   runApp(const MyApp());
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Rabbit Tracker',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -27,9 +29,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Palette.kToDark,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Rabbit Tracker'),
     );
   }
 }
@@ -79,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Align(child: Text(widget.title)),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -98,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+          SizedBox(height: 14),
           HabitDashboard(name: '🔥🔥 exercício'),
         ],
       ),

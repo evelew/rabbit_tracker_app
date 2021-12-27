@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class Counter extends ChangeNotifier {
+class MarkedDays extends ChangeNotifier {
   var _markedDays = [];
 
   dynamic get getMarkedDays {
@@ -34,12 +34,15 @@ class HabitDashboard extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider.value(
-            value: Counter(),
+            value: MarkedDays(),
           )
         ],
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(name), SizedBox(height: 14), Calendar()]));
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 0), child: Text(name)),
+          SizedBox(height: 14),
+          Padding(padding: EdgeInsets.fromLTRB(16, 0, 16, 0), child: Calendar())
+        ]));
   }
 }
 
@@ -47,12 +50,12 @@ class Calendar extends StatelessWidget {
   const Calendar({Key? key}) : super(key: key);
 
   void _markDay(BuildContext context, selectedDay) {
-    Provider.of<Counter>(context, listen: false).markDay(selectedDay);
+    Provider.of<MarkedDays>(context, listen: false).markDay(selectedDay);
   }
 
   @override
   Widget build(BuildContext context) {
-    var markedDays = Provider.of<Counter>(context).getMarkedDays;
+    var markedDays = Provider.of<MarkedDays>(context).getMarkedDays;
 
     bool isDayMarked(day) {
       return markedDays.contains(day);
