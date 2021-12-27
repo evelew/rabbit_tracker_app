@@ -10,8 +10,13 @@ class Counter extends ChangeNotifier {
     return _markedDays;
   }
 
-  void incrementCounter(selectedDay) {
-    _markedDays.add(selectedDay);
+  void markDay(selectedDay) {
+    if (_markedDays.contains(selectedDay)) {
+      _markedDays.removeWhere((item) => item == selectedDay);
+    } else {
+      _markedDays.add(selectedDay);
+    }
+
     notifyListeners();
   }
 }
@@ -41,8 +46,8 @@ class HabitDashboard extends StatelessWidget {
 class Calendar extends StatelessWidget {
   const Calendar({Key? key}) : super(key: key);
 
-  void _incrementCounter(BuildContext context, selectedDay) {
-    Provider.of<Counter>(context, listen: false).incrementCounter(selectedDay);
+  void _markDay(BuildContext context, selectedDay) {
+    Provider.of<Counter>(context, listen: false).markDay(selectedDay);
   }
 
   @override
@@ -60,7 +65,7 @@ class Calendar extends StatelessWidget {
       focusedDay: DateTime.now(),
       headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
       onDaySelected: (selectedDay, focusedDay) {
-        _incrementCounter(context, selectedDay);
+        _markDay(context, selectedDay);
       },
       calendarBuilders: CalendarBuilders(
         todayBuilder: (context, date, _) {
