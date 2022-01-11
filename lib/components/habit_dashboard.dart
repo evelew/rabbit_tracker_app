@@ -1,7 +1,31 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:http/http.dart' as http;
+
+Future<Habits> fetchHabits() async {
+  final response = await http
+      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+
+  if (response.statusCode == 200) {
+    return Habits.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load habit.');
+  }
+}
+
+class Habits {
+  final String name;
+
+  Habits({required this.name});
+
+  factory Habits.fromJson(Map<String, dynamic> json) {
+    return Habits(name: json['title']);
+  }
+}
 
 class MarkedDays extends ChangeNotifier {
   var _markedDays = [];
@@ -46,14 +70,20 @@ class HabitDashboard extends StatelessWidget {
   }
 }
 
-class Calendar extends StatelessWidget {
-  const Calendar({Key? key}) : super(key: key);
+class _CalendarState extends State<Calendar> {
+  late Future<Habits> futureHabits;
 
   void _markDay(BuildContext context, selectedDay) {
     Provider.of<MarkedDays>(context, listen: false).markDay(selectedDay);
   }
 
   @override
+  void initState() {
+    super.initState();
+    print('ue');
+    fetchHabits().then((result) => {print('oi: $result')});
+  }
+
   Widget build(BuildContext context) {
     var markedDays = Provider.of<MarkedDays>(context).getMarkedDays;
 
@@ -84,6 +114,13 @@ class Calendar extends StatelessWidget {
       ),
     );
   }
+}
+
+class Calendar extends StatefulWidget {
+  const Calendar({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _CalendarState();
 }
 
 class CalendarDay extends StatelessWidget {
